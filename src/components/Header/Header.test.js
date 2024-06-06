@@ -2,9 +2,21 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '../contexts/ThemeContext';
-import Header from '../components/Header';
+import Header from './Header';
 
-test('renders Header and toggles theme', () => {
+test('renders Home link', () => {
+    render(
+        <ThemeProvider>
+            <Router>
+                <Header />
+            </Router>
+        </ThemeProvider>
+    );
+    const linkElement = screen.getByText(/All Recipes/i);
+    expect(linkElement).toBeInTheDocument();
+});
+
+test('toggles theme', () => {
     render(
         <ThemeProvider>
             <Router>
@@ -14,8 +26,16 @@ test('renders Header and toggles theme', () => {
     );
 
     const button = screen.getByRole('button');
-    expect(button).toHaveTextContent('Dark Mode');
+    expect(button).toBeInTheDocument();
 
+    // Store the initial theme
+    const initialTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+
+    // Click the button to toggle the theme
     fireEvent.click(button);
-    expect(button).toHaveTextContent('Light Mode');
+
+    // Verify the theme was toggled
+    const newTheme = initialTheme === 'light' ? 'dark' : 'light';
+    expect(document.documentElement.classList.contains(newTheme)).toBe(true);
+    expect(document.documentElement.classList.contains(initialTheme)).toBe(false);
 });
