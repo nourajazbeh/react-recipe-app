@@ -1,9 +1,12 @@
 import React from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
 
-const Footer = () => (
-  <footer className="bg-blue-500 p-4 fixed bottom-0 w-full text-white text-center">
-    <p>&copy; 2024 Meine Rezeptseite</p>
-  </footer>
-);
+export default function Footer() {
+    const { theme } = useTheme();
+    return (
+        <footer className={`p-4 text-center ${theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-blue-500 text-white'}`}>
+            &copy; 2024  React-Recipes-app
+        </footer>
+    );
+}
 
-export default Footer;
