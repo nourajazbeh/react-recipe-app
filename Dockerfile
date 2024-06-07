@@ -16,5 +16,3 @@ COPY . .
 # Baue die React-Anwendung
 RUN npm run build
 
-# Setze den Startbefehl für den Container
-CMD ["npm", "start"]
