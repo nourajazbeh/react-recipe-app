@@ -1,18 +1,27 @@
-# Verwende das offizielle Node-Image als Basisimage
-FROM node:alpine
+# Use an official node runtime as a parent image
+FROM node:14
 
-# Setze das Arbeitsverzeichnis im Container
+# Set the working directory
 WORKDIR /app
 
-# Kopiere die package.json- und package-lock.json-Dateien in das Arbeitsverzeichnis
+# Copy the package.json and package-lock.json
 COPY package*.json ./
 
-# Installiere die Abhängigkeiten
+# Install dependencies
 RUN npm install
 
-# Kopiere den Rest des Codes in das Arbeitsverzeichnis
+# Copy the rest of the application code
 COPY . .
 
-# Baue die React-Anwendung
+# Build the React application
 RUN npm run build
+
+# Use a simple server to serve the React application
+RUN npm install -g serve
+
+# Set the command to run the application
+CMD ["serve", "-s", "build"]
+
+# Expose the port the app runs on
+EXPOSE 3000
 
